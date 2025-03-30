@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center vh-100">
+    <div class="card shadow-lg p-4 text-center" style="max-width: 400px; width: 100%;">
+        <div class="card-body">
+            <h2 class="text-danger">Unsubscribe from Videos</h2>
+            <p class="text-muted">Are you sure you want to unsubscribe? You will lose access to all videos.</p>
+
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger w-100">Unsubscribe</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

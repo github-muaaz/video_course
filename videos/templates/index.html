@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container mt-4">
+        <div class="row">
+            {% if videos %}
+                {% for video in videos %}
+                    <div class="col-md-4 mb-4">
+                        <div class="card shadow-sm">
+                            <img src="{{ video.image.url }}" class="card-img-top" alt="{{ video.title }}" style="height: 200px; object-fit: cover;">
+                            
+                            <div class="card-body text-start">
+                                <h5 class="card-title">{{ video.title }}</h5>
+                                <p class="card-text">Tutor: {{ video.tutor }}</p>
+                                
+                                <div class="d-flex justify-content-between">
+                                    <p class="card-text"><small class="text-muted">{{ video.date_created }}</small></p>
+                                    <p class="card-text text-end">
+                                        {% for _ in ""|rjust:video.rate|slice:":5" %}
+                                            ⭐
+                                        {% endfor %}
+                                    </p>
+                                </div>
+
+                                <button class="btn btn-primary btn-sm mt-2" 
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#videoModal" 
+                                        data-video-url="{% url 'protected_media' file_path=video.video.name|slice:'7:' %}">
+                                    Watch Video
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <h2 class="mb-3 mt-3 text-primary">Subscribe to Access Videos</h2>
+                <p class="text-muted">Only subscribed users can watch videos.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Bootstrap Modal -->
+    <div class="modal fade" id="videoModal" tabindex="-1" aria-labelledby="videoModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="videoModalLabel">Video</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <video id="modalVideo" class="w-100" controls>
+                        <source src="" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript to Update Video Source -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var videoModal = document.getElementById("videoModal");
+            videoModal.addEventListener("show.bs.modal", function (event) {
+                var button = event.relatedTarget;
+                var videoUrl = button.getAttribute("data-video-url");
+                var modalVideo = document.getElementById("modalVideo");
+                modalVideo.src = videoUrl;
+            });
+
+            videoModal.addEventListener("hidden.bs.modal", function () {
+                document.getElementById("modalVideo").src = "";
+            });
+        });
+    </script>
+{% endblock %}
