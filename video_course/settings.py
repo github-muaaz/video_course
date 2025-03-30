@@ -25,12 +25,12 @@ LOGOUT_REDIRECT_URL = "/"
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '4sd-n*qbrit+rztx0-%1%8eaa^k4-uz(%do4e(rqr3f)71ear%'
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "fallback-secret-key")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
 DEBUG = False
-ALLOWED_HOSTS = ["your-app-name.onrender.com"]
+ALLOWED_HOSTS = ["video_course.onrender.com"]
 
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
