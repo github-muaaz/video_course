@@ -32,7 +32,7 @@
                         </div>
                     </div>
                 {% endfor %}
-            {% elif not (user.userprofile.is_subscribed or user.is_superuser) %}
+            {% elif not user.is_superuser or not user.userprofile.is_subscribed %}
                 <h2 class="mb-3 mt-3 text-primary">Subscribe to Access Videos</h2>
                 <p class="text-muted">Only subscribed users can watch videos.</p>
             {% else %}
